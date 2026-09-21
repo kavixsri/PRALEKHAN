@@ -1,4 +1,4 @@
-﻿export class ReconciliationService {
+export class ReconciliationService {
     static matchTransaction(bankTx: any, donations: any[]) {
         // Find donation matching amount exactly, and date within +/- 1 day
         // And optionally fuzzy match on reference

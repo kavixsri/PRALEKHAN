@@ -1,4 +1,4 @@
-﻿import { describe, it, expect } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { GroundedAIService } from '../src/lib/services/grounded-ai';
 
 describe('Grounded AI Claim Verifier', () => {

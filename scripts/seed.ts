@@ -1,4 +1,4 @@
-﻿import { faker } from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 
 // In a real scenario, we'd use the Supabase client to insert these into the local DB.
 // For now, this is a skeleton showing the data generation strategy.

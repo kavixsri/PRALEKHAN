@@ -1,4 +1,4 @@
-﻿export function normalizePhone(phone: string | null | undefined): string | null {
+export function normalizePhone(phone: string | null | undefined): string | null {
     if (!phone) return null;
     let cleaned = phone.replace(/\D/g, '');
     if (cleaned.length === 10) {

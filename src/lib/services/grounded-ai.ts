@@ -1,4 +1,4 @@
-﻿export class GroundedAIService {
+export class GroundedAIService {
     static verifyClaims(draftContent: string, sourceDataNumbers: number[]) {
         const draftNumbers = draftContent.match(/\d+/g)?.map(Number) || [];
         

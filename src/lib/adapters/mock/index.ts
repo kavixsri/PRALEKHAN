@@ -1,49 +1,56 @@
-﻿import { IPaymentAdapter, IMessagingAdapter, IEmailAdapter, ISheetsAdapter, ILLMAdapter } from '../types';
+import type { IPaymentAdapter, IMessagingAdapter, IEmailAdapter, ISheetsAdapter, ILLMAdapter } from '../types';
 
 export class MockPaymentAdapter implements IPaymentAdapter {
-    verifyWebhookSignature(payload: string, signature: string, secret: string): boolean {
-        console.log('[MockPayment] Verifying signature', { signature, secret });
-        return true; // Always valid in mock
-    }
-    async processWebhook(payload: any): Promise<void> {
-        console.log('[MockPayment] Processing webhook payload:', payload);
-        return Promise.resolve();
-    }
+  verifyWebhookSignature(_payload: string, _signature: string, _secret: string): boolean {
+    console.log('[MockPayment] Signature verified (mock — always true)');
+    return true;
+  }
+  async processWebhook(payload: unknown): Promise<void> {
+    console.log('[MockPayment] Processing webhook payload:', payload);
+  }
 }
 
 export class MockMessagingAdapter implements IMessagingAdapter {
-    async sendMessage(to: string, message: string, templateId?: string): Promise<boolean> {
-        console.log(\[MockMessaging] Sending WhatsApp to \:\, message);
-        return Promise.resolve(true);
-    }
+  async sendMessage(to: string, message: string, templateId?: string): Promise<boolean> {
+    console.log('[MockWhatsApp] Sending to', to, '| template:', templateId ?? 'none');
+    console.log('[MockWhatsApp] Message:', message);
+    return true;
+  }
 }
 
 export class MockEmailAdapter implements IEmailAdapter {
-    async sendEmail(to: string, subject: string, body: string, attachment?: Buffer): Promise<boolean> {
-        console.log(\[MockEmail] Sending email to \: \\);
-        return Promise.resolve(true);
-    }
+  async sendEmail(to: string, subject: string, _body: string, _attachment?: Buffer): Promise<boolean> {
+    console.log('[MockEmail] Sending to', to, '| subject:', subject);
+    return true;
+  }
 }
 
 export class MockSheetsAdapter implements ISheetsAdapter {
-    async appendRow(spreadsheetId: string, range: string, values: any[]): Promise<boolean> {
-        console.log(\[MockSheets] Appending to \!\:\, values);
-        return Promise.resolve(true);
-    }
+  private rows: unknown[][] = [];
+
+  async appendRow(spreadsheetId: string, range: string, values: unknown[]): Promise<boolean> {
+    this.rows.push(values);
+    console.log('[MockSheets] Row appended to', spreadsheetId + '!' + range, '| Total rows:', this.rows.length);
+    return true;
+  }
+
+  getRows(): unknown[][] {
+    return this.rows;
+  }
 }
 
 export class MockLLMAdapter implements ILLMAdapter {
-    async generateDraft(prompt: string, contextData: any): Promise<string> {
-        console.log('[MockLLM] Generating draft for prompt:', prompt.substring(0, 50) + '...');
-        return Promise.resolve(
-            \Draft Proposal: \\n\\nBased on your support, we have been able to fund 50 child-months of education [Src: donation#test1234]. Thank you for your Rs 25,000 contribution.\
-        );
-    }
-    
-    async extractClaims(text: string): Promise<number[]> {
-        console.log('[MockLLM] Extracting claims from text');
-        // Dummy extraction: extract all numbers
-        const matches = text.match(/\\d+/g);
-        return Promise.resolve(matches ? matches.map(Number) : []);
-    }
+  async generateDraft(_prompt: string, _contextData: unknown): Promise<string> {
+    return [
+      'Dear Supporter,',
+      '',
+      'Based on our campaigns, we funded 50 child-months of education [Src: tx1, tx3].',
+      'Thank you for your Rs 25000 contribution [Src: tx2].',
+    ].join('\n');
+  }
+
+  async extractClaims(text: string): Promise<number[]> {
+    const matches = text.match(/\d+/g);
+    return matches ? matches.map(Number) : [];
+  }
 }

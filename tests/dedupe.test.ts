@@ -1,4 +1,4 @@
-﻿import { describe, it, expect } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { normalizeName } from '../src/lib/utils/name';
 import { normalizePhone } from '../src/lib/utils/phone';
 

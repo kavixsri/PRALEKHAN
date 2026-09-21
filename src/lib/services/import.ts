@@ -1,4 +1,4 @@
-﻿import Papa from 'papaparse';
+import Papa from 'papaparse';
 import { normalizeName } from '../utils/name';
 import { normalizePhone } from '../utils/phone';
 

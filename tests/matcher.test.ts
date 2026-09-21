@@ -1,4 +1,4 @@
-﻿import { describe, it, expect } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { ReconciliationService } from '../src/lib/services/reconciliation';
 
 describe('Reconciliation Matcher', () => {

@@ -1,4 +1,4 @@
-﻿export interface IPaymentAdapter {
+export interface IPaymentAdapter {
     verifyWebhookSignature(payload: string, signature: string, secret: string): boolean;
     processWebhook(payload: any): Promise<void>;
 }

@@ -1,4 +1,4 @@
-﻿export function normalizeName(name: string | null | undefined): string | null {
+export function normalizeName(name: string | null | undefined): string | null {
     if (!name) return null;
     let norm = name.normalize('NFKD').toLowerCase().replace(/[.,]/g, '').trim().replace(/\s+/g, ' ');
     

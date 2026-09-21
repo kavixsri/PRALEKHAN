@@ -1,4 +1,4 @@
-﻿import { normalizeName } from '../utils/name';
+import { normalizeName } from '../utils/name';
 import { normalizePhone } from '../utils/phone';
 
 export class IdentityService {
