@@ -16,7 +16,7 @@ export default function LoginPage() {
         'pralekhan_auth',
         JSON.stringify({ email: 'admin@upay.org', name: 'Admin User', org: 'UPAY NGO', role: 'Admin' })
       );
-      router.push('/');
+      window.location.href = '/';
     } else {
       setError('Invalid credentials');
     }
