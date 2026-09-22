@@ -2,36 +2,32 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const [user, setUser] = useState<{ name: string; role: string; email: string } | null>(null);
-  const [checked, setChecked] = useState(false);
+  const router = useRouter();
+  const [user, setUser] = useState<{ name: string; role: string } | null>(null);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const auth = localStorage.getItem('pralekhan_auth');
-    if (!auth) {
-      window.location.href = '/login/';
-    } else {
-      try {
-        setUser(JSON.parse(auth));
-      } catch {
-        setUser({ name: 'Admin User', role: 'Admin', email: 'admin@upay.org' });
-      }
-      setChecked(true);
+    const raw = localStorage.getItem('pralekhan_auth');
+    if (!raw) {
+      router.replace('/login');
+      return;
     }
-  }, []);
+    try {
+      setUser(JSON.parse(raw));
+    } catch {
+      setUser({ name: 'Admin User', role: 'Admin' });
+    }
+    setReady(true);
+  }, [router]);
 
-  const handleLogout = () => {
-    localStorage.removeItem('pralekhan_auth');
-    window.location.href = '/login/';
-  };
-
-  if (!checked) {
+  if (!ready) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC]">
-        <div className="text-gray-400 text-sm">Loading…</div>
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#F8FAFC' }}>
+        <p style={{ color: '#9CA3AF', fontSize: '0.875rem' }}>Loading Pralekhan…</p>
       </div>
     );
   }
@@ -47,51 +43,63 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     { name: 'Settings', path: '/settings', icon: '⚙️' },
   ];
 
+  const handleLogout = () => {
+    localStorage.removeItem('pralekhan_auth');
+    router.replace('/login');
+  };
+
   return (
-    <div className="flex h-screen overflow-hidden" style={{ backgroundColor: '#F8FAFC' }}>
+    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', backgroundColor: '#F8FAFC' }}>
       {/* Sidebar */}
-      <div className="w-60 flex-shrink-0 flex flex-col" style={{ backgroundColor: '#1E3A5F' }}>
-        <div className="px-6 py-5 border-b border-white/10">
-          <h1 className="text-xl font-bold tracking-tight" style={{ color: '#F59E0B' }}>Pralekhan</h1>
-          <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.5)' }}>UPAY NGO · Donor System</p>
+      <div style={{ width: 240, flexShrink: 0, display: 'flex', flexDirection: 'column', backgroundColor: '#1E3A5F' }}>
+        <div style={{ padding: '20px 24px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+          <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#F59E0B', letterSpacing: '-0.02em' }}>Pralekhan</div>
+          <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.45)', marginTop: 2 }}>UPAY NGO · Donor System</div>
         </div>
 
-        <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
+        <nav style={{ flex: 1, padding: '12px 12px', overflowY: 'auto' }}>
           {navItems.map((item) => {
             const isActive = pathname === item.path || (item.path !== '/' && pathname.startsWith(item.path));
             return (
               <Link
                 key={item.name}
                 href={item.path}
-                className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all"
                 style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 10,
+                  padding: '9px 12px',
+                  borderRadius: 8,
+                  marginBottom: 2,
+                  textDecoration: 'none',
+                  fontSize: '0.875rem',
+                  fontWeight: isActive ? 600 : 400,
                   backgroundColor: isActive ? '#F59E0B' : 'transparent',
                   color: isActive ? '#1E3A5F' : 'rgba(255,255,255,0.8)',
-                  fontWeight: isActive ? 600 : 400,
+                  transition: 'background 0.15s',
                 }}
               >
-                <span className="text-base">{item.icon}</span>
-                <span>{item.name}</span>
+                <span style={{ fontSize: '1rem' }}>{item.icon}</span>
+                {item.name}
               </Link>
             );
           })}
         </nav>
 
-        <div className="px-3 py-4 border-t border-white/10">
-          <div className="rounded-lg p-3" style={{ backgroundColor: 'rgba(255,255,255,0.08)' }}>
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold" style={{ backgroundColor: '#F59E0B', color: '#1E3A5F' }}>
+        <div style={{ padding: 12, borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+          <div style={{ backgroundColor: 'rgba(255,255,255,0.08)', borderRadius: 8, padding: 12 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+              <div style={{ width: 32, height: 32, borderRadius: '50%', backgroundColor: '#F59E0B', color: '#1E3A5F', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '0.8rem', flexShrink: 0 }}>
                 {user?.name?.charAt(0) ?? 'A'}
               </div>
               <div>
-                <p className="text-sm font-medium text-white">{user?.name}</p>
-                <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>{user?.role}</p>
+                <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'white' }}>{user?.name}</div>
+                <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.5)' }}>{user?.role}</div>
               </div>
             </div>
             <button
               onClick={handleLogout}
-              className="w-full py-1.5 text-xs rounded-md transition-colors"
-              style={{ backgroundColor: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}
+              style={{ width: '100%', padding: '6px 0', fontSize: '0.75rem', color: 'rgba(255,255,255,0.7)', backgroundColor: 'rgba(255,255,255,0.1)', border: 'none', borderRadius: 6, cursor: 'pointer' }}
             >
               Sign Out
             </button>
@@ -100,8 +108,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <main className="flex-1 overflow-y-auto p-8">
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <main style={{ flex: 1, overflowY: 'auto', padding: 32 }}>
           {children}
         </main>
       </div>
