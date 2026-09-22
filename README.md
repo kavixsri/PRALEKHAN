@@ -1,10 +1,10 @@
-﻿<div align="center">
+<div align="center">
 
-# ðŸ“‹ Pralekhan
+# Pralekhan
 ### Donor & Donation Management System
-**Built for UPAY NGO Â· Samadhan 2026-27 Track 2**
+**Built for UPAY NGO · Samadhan 2026-27 Track 2**
 
-[![Live Demo](https://img.shields.io/badge/ðŸŒ_Live_Demo-kavixsri.github.io/PRALEKHAN-1E3A5F?style=for-the-badge)](https://kavixsri.github.io/PRALEKHAN/)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-kavixsri.github.io/PRALEKHAN-1E3A5F?style=for-the-badge)](https://kavixsri.github.io/PRALEKHAN/)
 [![Next.js](https://img.shields.io/badge/Next.js_16-000000?style=for-the-badge&logo=nextdotjs)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
@@ -13,7 +13,7 @@
 
 ---
 
-## ðŸ” Demo Login
+## Demo Login
 
 | Field    | Value              |
 |----------|--------------------|
@@ -24,113 +24,117 @@
 
 ---
 
-## ðŸŽ¯ What is Pralekhan?
+## What is Pralekhan?
 
-UPAY NGO manages **20,000â€“30,000 donors** and donations flowing in through Razorpay, bank/UPI transfers, cash, cheques, and CSR grants. Records were fragmented across spreadsheets and manual systems â€” causing duplicates, slow reconciliation, missed acknowledgements, and zero donor insights.
+UPAY NGO manages **20,000-30,000 donors** and donations flowing in through Razorpay, bank/UPI transfers, cash, cheques, and CSR grants. Records were fragmented across spreadsheets — causing duplicates, slow reconciliation, missed acknowledgements, and zero donor insights.
 
 **Pralekhan** unifies all of this into one elegant system built on three core pillars:
 
 | Pillar | What it does |
 |--------|-------------|
-| ðŸ”€ **MERGE** | Identity-resolution engine that unifies donors across channels â€” fuzzy name matching (handles "Mohammad" vs "Md." vs "Mohammed"), E.164 phone normalisation, email deduplication |
-| ðŸ’Œ **THANK** | Triggers WhatsApp-first acknowledgement + auto-generated 80G receipt PDF within ~60 seconds of a donation |
-| ðŸ“ **PROVE** | Grounded AI Writer for grant proposals â€” every number cites its source, hallucinations are flagged before sending |
+| **MERGE** | Identity-resolution engine — fuzzy name matching (handles "Mohammad" vs "Md."), E.164 phone normalisation, email deduplication |
+| **THANK** | Triggers WhatsApp-first acknowledgement + auto-generated 80G receipt PDF within ~60 seconds of a donation |
+| **PROVE** | Grounded AI Writer for grant proposals — every number cites its source, hallucinations are flagged before sending |
 
 ---
 
-## ðŸ–¥ï¸ Features
+## Features
 
-### ðŸ  Dashboard
+### Dashboard
 - KPI cards: Total Donors, Total Raised (FY 26-27), Active Campaigns, Pending Reconciliation
-- Recent donation feed with real-time activity
+- Recent donation feed
 - Quick actions: Add Donor, Record Donation, Import CSV
 
-### ðŸ‘¥ Donor Management
+### Donor Management
 - **20 rich donor profiles** (individuals + CSR organisations across 15 Indian cities)
 - Segments: Champion, Loyal, At-Risk, Lapsed (RFM scoring)
-- Donor 360Â° profile with donation timeline
-- **Add Donor** modal with instant save
-- CSV Import Wizard (5 steps: upload â†’ map â†’ normalise â†’ dedupe preview â†’ confirm)
+- Donor 360 profile with full donation timeline
+- **Add Donor** modal with instant save to local state
+- CSV Import Wizard (5 steps: upload → map → normalise → dedupe preview → confirm)
 
-### ðŸ’° Donation Ledger
+### Donation Ledger
 - **30 donations** across all channels: Razorpay, UPI, Bank Transfer, Cash, Cheque
-- **Record Donation** modal
+- **Record Donation** modal with channel + campaign selection
 - 80G receipt download per transaction
-- Campaign tagging and filtering
 
-### ðŸ”€ Merge Review Queue
-- Confidence-scored duplicate candidates (score 0â€“1)
-- Side-by-side A vs B comparison
-- Reasons: phone exact match, name variant, email match
-- One-click Approve or Reject
+### Merge Review Queue
+- Confidence-scored duplicate candidates (score 0.0 - 1.0)
+- Side-by-side A vs B donor comparison
+- Reasons shown: phone exact match, name variant, email match
+- One-click Approve or Reject with audit trail
 
-### ðŸ”„ Reconciliation Inbox
-- Upload bank CSV â†’ auto-match to recorded donations
-- Green (matched) / Amber (needs review) / Red (unmatched) badges
+### Reconciliation Inbox
+- Upload bank CSV to auto-match recorded donations
+- Green (matched) / Amber (needs review) / Red (unmatched) status badges
 - Manual resolution workflow for exceptions
 
-### ðŸ“Š Reports & Insights
+### Reports & Insights
 - Campaign performance bar chart
 - Donor retention trend line chart
 - Channel mix pie chart
-- **Lapse Risk Queue** with hoverable RFM "why" explanation
+- Lapse Risk Queue with RFM score explanations
 
-### âœï¸ Grounded AI Writer
+### Grounded AI Writer
 - Generate grant proposals and donor letters
-- Every claim auto-cites its source record `[Src: tx2]`
-- Unverified numbers highlighted in red before you can send
-- Approval gate: Send button disabled until all claims verified
+- Every numeric claim auto-cites its source record `[Src: tx2]`
+- Unverified numbers highlighted before you can approve
+- Send button locked until all claims verified
 
-### âš™ï¸ Settings
+### Settings
 - Profile: name, email, role, organisation
-- Security: change password
-- Org Settings: 80G number, 12A number, Razorpay webhook, WhatsApp template
+- Security: change password form
+- Org Settings: 80G number, 12A number, Razorpay webhook URL, WhatsApp template
+
+### Auth
+- Login page with credential validation
+- Session stored in localStorage (demo-safe, no server needed)
+- All app routes protected — redirects to login if not signed in
 
 ---
 
-## ðŸ—ï¸ Architecture
+## Architecture
 
 ```
 Next.js 16 (App Router, Static Export)
-â”œâ”€â”€ src/app/
-â”‚   â”œâ”€â”€ login/              â† Auth page (localStorage-based)
-â”‚   â””â”€â”€ (app)/
-â”‚       â”œâ”€â”€ layout.tsx      â† Sidebar + auth guard
-â”‚       â”œâ”€â”€ page.tsx        â† Dashboard
-â”‚       â”œâ”€â”€ donors/         â† List + [id] profile + import wizard
-â”‚       â”œâ”€â”€ donations/      â† Ledger + manual entry
-â”‚       â”œâ”€â”€ reconciliation/ â† Bank CSV matching
-â”‚       â”œâ”€â”€ merge-review/   â† Duplicate resolution
-â”‚       â”œâ”€â”€ reports/        â† Charts (Recharts)
-â”‚       â”œâ”€â”€ ai-writer/      â† Grounded AI prototype
-â”‚       â””â”€â”€ settings/       â† Profile + org config
-â”œâ”€â”€ src/lib/
-â”‚   â”œâ”€â”€ mock-data.ts        â† 20 donors, 30 donations, merge candidates
-â”‚   â”œâ”€â”€ services/           â† Identity, reconciliation, AI grounding logic
-â”‚   â””â”€â”€ adapters/           â† Mock adapters for Razorpay, WhatsApp, Sheets
-â””â”€â”€ tests/                  â† Vitest unit tests (dedupe, matcher, AI verifier)
+src/app/
+  login/              <- Auth page
+  (app)/
+    layout.tsx        <- Sidebar + auth guard
+    page.tsx          <- Dashboard
+    donors/           <- List + [id] profile + import wizard
+    donations/        <- Ledger + manual entry modal
+    reconciliation/   <- Bank CSV matching
+    merge-review/     <- Duplicate resolution queue
+    reports/          <- Charts (Recharts)
+    ai-writer/        <- Grounded AI prototype
+    settings/         <- Profile + org config
+src/lib/
+  mock-data.ts        <- 20 donors, 30 donations, merge candidates
+  services/           <- Identity, reconciliation, AI grounding logic
+  adapters/           <- Mock adapters for Razorpay, WhatsApp, Sheets
+tests/                <- Vitest unit tests (dedupe, matcher, AI verifier)
 ```
 
-**Zero external dependencies for the demo** â€” all adapters are mocked. No API keys needed. Deploy anywhere static files are served.
+Zero external API dependencies for the demo — all adapters are mocked. No API keys needed.
 
 ---
 
-## ðŸ§ª Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
-| Framework | Next.js 16 (App Router) |
+| Framework | Next.js 16 (App Router, Static Export) |
 | Language | TypeScript |
 | Styling | Tailwind CSS v4 |
 | Charts | Recharts |
 | Testing | Vitest |
-| Deployment | GitHub Pages (static export) |
-| Auth | localStorage (demo) â†’ Supabase Auth (production) |
+| Deployment | GitHub Pages |
+| Auth | localStorage (demo) → Supabase Auth (production) |
 | DB Schema | Supabase Postgres (migration included, not required for demo) |
 
 ---
 
-## ðŸš€ Run Locally
+## Run Locally
 
 ```bash
 git clone https://github.com/kavixsri/PRALEKHAN.git
@@ -142,37 +146,38 @@ npm run dev
 ```
 
 Run tests:
+
 ```bash
 npm run test
 ```
 
 ---
 
-## ðŸ’° Cost Model
+## Cost Model
 
 | Component | Cost |
 |-----------|------|
 | GitHub Pages hosting | Free |
 | Supabase (up to 500MB) | Free |
-| WhatsApp Cloud API | ~â‚¹0.40/message |
-| 80G PDF generation | Serverless (pdf-lib) |
-| **Total recurring** | **< â‚¹500/month** |
+| WhatsApp Cloud API | ~Rs 0.40/message |
+| 80G PDF generation | Free (pdf-lib, serverless) |
+| **Total recurring** | **< Rs 500/month** |
 
 ---
 
-## ðŸ“ Key Files
+## Key Files
 
 | File | Purpose |
 |------|---------|
-| [`src/lib/mock-data.ts`](src/lib/mock-data.ts) | All demo data (20 donors, 30 donations) |
-| [`src/lib/services/identity.ts`](src/lib/services/identity.ts) | Phone normalisation + fuzzy name matching |
-| [`src/lib/services/grounded-ai.ts`](src/lib/services/grounded-ai.ts) | Claim extraction + verification |
-| [`supabase/migrations/`](supabase/migrations/) | Full Postgres schema with RLS |
-| [`DEMO_SCRIPT.md`](DEMO_SCRIPT.md) | Step-by-step demo walkthrough |
-| [`ASSUMPTIONS.md`](ASSUMPTIONS.md) | Design decisions and constraints |
+| `src/lib/mock-data.ts` | All demo data (20 donors, 30 donations) |
+| `src/lib/services/identity.ts` | Phone normalisation + fuzzy name matching |
+| `src/lib/services/grounded-ai.ts` | Claim extraction + verification |
+| `supabase/migrations/` | Full Postgres schema with RLS |
+| `DEMO_SCRIPT.md` | Step-by-step demo walkthrough |
+| `ASSUMPTIONS.md` | Design decisions and constraints |
 
 ---
 
 <div align="center">
-Built with â¤ï¸ for UPAY NGO Â· Samadhan 2026-27
+Built for UPAY NGO · Samadhan 2026-27
 </div>
